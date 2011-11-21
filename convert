@@ -1,0 +1,16 @@
+#! /usr/bin/ruby
+
+require 'rubygems'
+require 'kramtex.rb'
+
+filename = ARGV.first
+exit( "Can't find the .md file" ) if filename.nil?
+
+kramtex = KramTeX::Document.new(filename)
+kramtex.open_file do |file|
+  document = kramtex.convert_to_document( file ) do |document|
+  kramtex.write_output( document )
+  #system( "xelatex #{filename}.tex" )
+  end
+end
+
