@@ -3,14 +3,18 @@
 require 'rubygems'
 require 'kramtex.rb'
 
+TEX_CRAP = [".aux", ".log", ".out", ".tex", ".pdf"]
+
 filename = ARGV.first
-exit( "Can't find the .md file" ) if filename.nil?
+abort("Can't find the .markdown file") unless File.exist?("#{filename}.markdown")
+
+TEX_CRAP.each { |ext| File.delete(filename+ext) if File.exist?(filename+ext)}
 
 kramtex = KramTeX::Document.new(filename)
-kramtex.open_file do |file|
-  document = kramtex.convert_to_document( file ) do |document|
+file = kramtex.open_file
+kramtex.convert_to_document( file ) do |document|
   kramtex.write_output( document )
-  #system( "xelatex #{filename}.tex" )
-  end
+  system( "xelatex #{filename}.tex" )
+  system( "open #{filename}.pdf" ) if File.exist?("#{filename}.pdf")
 end
 
