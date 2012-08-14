@@ -46,7 +46,7 @@ opts = Trollop::options do
 
   opt :convert, "Converts the created file to PDF", :default => true
   opt :preview, "Opens the created pdf in Preview/etc", :default => true
-  opt :template, "Which LaTeX template to use", :default => "littleprinter"
+  opt :template, "Which LaTeX template to use", :default => "lp"
   opt :png, "Also produce a PNG version of the converted document", :default => "false"
 end
 
