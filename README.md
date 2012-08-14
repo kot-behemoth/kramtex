@@ -10,8 +10,8 @@ Requirements
 Gems
 ----
 
-`kramdown`
-'trollop'
+ - `kramdown`
+ - 'trollop'
 
 Etc
 ---
