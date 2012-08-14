@@ -1,0 +1,75 @@
+#! /usr/bin/ruby
+
+require 'rubygems'
+require 'kramdown'
+require 'trollop'
+require 'fileutils'
+
+LATEX_HEADERS = ['section*',
+                 'subsection*',
+                 'subsubsection*',
+                 'paragraph*',
+                 'subparagraph*',
+                 '']
+TOC_LEVELS = [1,2,3,4,5,6]
+MD_FORMATS = ["md",
+              "markdown", 
+              "markdown",
+              "mdown",
+              "mkdn",
+              "md",
+              "mkd",
+              "mdwn",
+              "mdtxt",
+              "mdtext",
+              "text"]
+
+def markdown?(filetype)
+  MD_FORMATS.include?(filetype)
+end
+
+def define_filetype(file)
+  extension = File.extname(file)
+  extension[1..extension.length] # We do not want the period
+end
+
+# CLI options parsing
+opts = Trollop::options do
+  version "0.0.1 (c) 2012 Gregory Goltsov"
+  banner <<-EOS
+    kramtex is an experimental wrapper around kramdown to simplify LaTeX workflow.
+
+    Usage:
+           kramtex [options] <filename>
+    where [options] are:
+  EOS
+
+  opt :convert, "Converts the created file to PDF", :default => true
+  opt :preview, "Opens the created pdf in Preview/etc", :default => true
+  opt :template, "Which LaTeX template to use", :default => "littleprinter"
+end
+
+Trollop::die "Need at least one filename" if ARGV.empty?
+
+# Initialisation
+file = ARGV.first
+filetype = define_filetype(file).to_s
+filename = File.basename(file, '.'+filetype)
+document = ""
+
+abort "Can't find the markdown file" unless File.exist?(filename) or markdown?(filetype)
+
+File.open(file, "r") do |f|
+    document = Kramdown::Document.new(f.read,
+                                      :latex_headers => LATEX_HEADERS,
+                                      :toc_levels => TOC_LEVELS,
+                                      :template => "templates/#{opts[:template]}.latex")
+    document = document.to_latex
+end
+
+File.open(filename+'.tex', 'w') do |f|
+    f.write(document)
+end
+
+system 'xelatex', filename+'.tex' if opts[:convert]
+system 'open', filename+'.pdf' if opts[:preview]

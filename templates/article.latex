@@ -1,0 +1,76 @@
+<%
+encmap = {
+  'UTF-8' => 'utf8x',
+  'US-ASCII' => 'ascii',
+  'ISO-8859-1' => 'latin1',
+  'ISO-8859-2' => 'latin2',
+  'ISO-8859-3' => 'latin3',
+  'ISO-8859-4' => 'latin4',
+  'ISO-8859-5' => 'latin5',
+  'ISO-8859-9' => 'latin9',
+  'ISO-8859-10' => 'latin10',
+  'CP850' => 'cp850',
+  'CP852' => 'cp852',
+  'CP858' => 'cp858',
+  'CP437' => 'cp437',
+  'CP865' => 'cp865',
+  'CP1250' => 'cp120',
+  'CP1252' => 'cp1252',
+  'CP1257' => 'cp1257'
+}
+%>
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[parskip=full,
+               fontsize=11pt]{scrartcl}
+
+% Required packages
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,
+            urlcolor=blue}
+\usepackage{wrapfig}
+\usepackage{longtable}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\usepackage{mathpazo}             % Change math font
+\usepackage{url}                  % For links
+\usepackage{calc}
+\usepackage[english]{babel}       % Add more languages for
+                                  % better hyphenation
+
+\usepackage[big, compact]{titlesec}   % Less white space
+
+\usepackage[activate={true,nocompatibility},
+            final,
+            tracking=true,
+            kerning=true,
+            spacing=true,
+            factor=1100,
+            stretch=10,
+            shrink=10]{microtype}
+% activate={true,nocompatibility} - activate protrusion and expansion
+% final - enable microtype; use "draft" to disable
+% tracking=true, kerning=true, spacing=true - activate these techniques
+% factor=1100 - add 10% to the protrusion amount (default is 1000)
+% stretch=10, shrink=10 - reduce stretchability/shrinkability (default is 20/20)
+% http://www.khirevich.com/latex/microtype
+
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+\setromanfont{Optima}
+\setsansfont[Scale=MatchLowercase]{Gill Sans}
+\setmonofont[Scale=MatchLowercase]{Andale Mono}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+<%= @body %>
+\end{document}
+
