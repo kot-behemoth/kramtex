@@ -47,6 +47,7 @@ opts = Trollop::options do
   opt :convert, "Converts the created file to PDF", :default => true
   opt :preview, "Opens the created pdf in Preview/etc", :default => true
   opt :template, "Which LaTeX template to use", :default => "littleprinter"
+  opt :png, "Also produce a PNG version of the converted document", :default => "false"
 end
 
 Trollop::die "Need at least one filename" if ARGV.empty?
@@ -72,4 +73,5 @@ File.open(filename+'.tex', 'w') do |f|
 end
 
 system 'xelatex', filename+'.tex' if opts[:convert]
+system 'convert', '-density', '96', filename+'.pdf', filename+'.png' if opts[:png]
 system 'open', filename+'.pdf' if opts[:preview]
